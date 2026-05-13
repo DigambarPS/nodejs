@@ -1,6 +1,8 @@
 const http = require("http");
 const fs = require("fs");
 const qs = require("querystring");
+const webForm = require("./webform")
+const formSubmit = require("./formsubmit")
 
 //creation of a simple server using http module
 // http.createServer((req, resp)=>{
@@ -118,41 +120,52 @@ const qs = require("querystring");
 //end
 
 //fetching submitted form data processing and displaying
-http
-  .createServer((req, res) => {
-    fs.readFile("form.html", "utf-8", (err, data) => {
-      if (err) {
-        res.writeHead(500, { "Content-Type": "text/plain" });
-        res.write("Internal Server Error");
-        res.end();
-        return;
-      }
-      res.writeHead(200, { "Content-Type": "text/html" });
+// http
+//   .createServer((req, res) => {
+//     fs.readFile("form.html", "utf-8", (err, data) => {
+//       if (err) {
+//         res.writeHead(500, { "Content-Type": "text/plain" });
+//         res.write("Internal Server Error");
+//         res.end();
+//         return;
+//       }
+//       res.writeHead(200, { "Content-Type": "text/html" });
 
-      if (req.url == "/") {
-        res.write(data);
-      } else if (req.url == "/submit") {
-        let receivedData = [];
-        req.on("data", (chunk) => {
-          receivedData.push(chunk);
-        });
-        let readableData = "";
-        req.on("end", () => {
-          let rawData = Buffer.concat(receivedData).toString();
-          readableData = qs.parse(rawData);
-          // console.log(readableData)
+//       if (req.url == "/") {
+//         res.write(data);
+//       } else if (req.url == "/submit") {
+//         let receivedData = [];
+//         req.on("data", (chunk) => {
+//           receivedData.push(chunk);
+//         });
+//         let readableData = "";
+//         req.on("end", () => {
+//           let rawData = Buffer.concat(receivedData).toString();
+//           readableData = qs.parse(rawData);
+//           // console.log(readableData)
 
-          res.write(
-            `<h1>Data Submitted Successfully</h1>
-          <h3>Submitted Data</h3>
-          <div>Username - ${readableData.username} </div>
-          <div>Password - ${readableData.pass} </div>
-          <a href="/">Click here to go to form again</a>`,
-          );
-          res.end();
-        });
-      }
-    });
-  })
-  .listen(3000);
+//           res.write(
+//             `<h1>Data Submitted Successfully</h1>
+//           <h3>Submitted Data</h3>
+//           <div>Username - ${readableData.username} </div>
+//           <div>Password - ${readableData.pass} </div>
+//           <a href="/">Click here to go to form again</a>`,
+//           );
+//           res.end();
+//         });
+//       }
+//     });
+//   })
+//   .listen(3000);
+//end
+
+//routes and modules from external files
+    http.createServer((req, res)=>{
+        if(req.url == '/'){
+           webForm(req, res);
+        }else if(req.url == '/submit'){
+            formSubmit(req, res);
+        }
+        res.end()
+    }).listen(3000)
 //end
