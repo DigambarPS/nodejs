@@ -48,8 +48,20 @@ app.use(
     express.static(publicPath)
 )
 
+/* simple middleware */
+function checkRoute(req,res,next)
+{
+    if(req.url == "/")
+    next();
+}
+app.use(checkRoute)
+
 app.get("/", (req,res)=>{
     res.sendFile(absPath+'/home.html');
+})
+
+app.get("/user", (req,res)=>{
+    res.sendFile(absPath+'/user.html');
 })
 
 /* add 404 page */
