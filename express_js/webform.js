@@ -4,6 +4,9 @@ const app = express()
 import Home from './pages/home.js'
 import Login from './pages/login.js'
 import Submit from './pages/submit.js'
+import path from "path"
+const absPath = path.resolve('./view')
+const publicPath = path.resolve('./public')
 
 /* simple webform flow using express js in same file
 app.get("/",(req,res)=>{
@@ -19,7 +22,7 @@ app.post("/submit",(req,res)=>{
 })>
 */
 
-/* simple web form in express js using modules and functions */
+/* simple web form in express js using modules and functions 
 app.get("/", (req,res)=>{
     res.send(Home())
 })
@@ -30,6 +33,28 @@ app.get("/login", (req,res)=>{
 
 app.post("/submit", (req,res)=>{
     res.send(Submit())
+})
+*/
+
+/* sending a html file
+app.get("/", (req, res)=>{
+    //const filepath = path.resolve('./view/home.html') //used to find absolute path of file using relative path
+    res.sendFile(absPath+'/home.html'); //requires absolute path of file to be rendered
+})
+ */
+
+/* working with external css files */
+app.use(
+    express.static(publicPath)
+)
+
+app.get("/", (req,res)=>{
+    res.sendFile(absPath+'/home.html');
+})
+
+/* add 404 page */
+app.use((req,res)=>{
+    res.status(404).sendFile(absPath+"/404.html");
 })
 
 app.listen(3200);
