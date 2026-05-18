@@ -49,12 +49,22 @@ app.use(
 )
 
 /* simple middleware */
-function checkRoute(req,res,next)
+// function checkRoute(req,res,next)
+// {
+//     if(req.url == "/")
+//     next();
+// }
+// app.use(checkRoute)
+
+function checkAge(req,res,next)
 {
-    if(req.url == "/")
-    next();
+    if(req.query.age >= 18)
+        next()
+    else
+        res.send("<h2>Access Denied</h>")
 }
-app.use(checkRoute)
+
+app.use(checkAge)
 
 app.get("/", (req,res)=>{
     res.sendFile(absPath+'/home.html');
