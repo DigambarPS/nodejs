@@ -5,7 +5,7 @@ import Home from './pages/home.js'
 import Login from './pages/login.js'
 import Submit from './pages/submit.js'
 import path from "path"
-const absPath = path.resolve('./view')
+const absPath = path.resolve('./views')
 const publicPath = path.resolve('./public')
 import morgan from "morgan";
 
@@ -39,7 +39,7 @@ app.post("/submit", (req,res)=>{
 
 /* sending a html file
 app.get("/", (req, res)=>{
-    //const filepath = path.resolve('./view/home.html') //used to find absolute path of file using relative path
+    //const filepath = path.resolve('./views/home.html') //used to find absolute path of file using relative path
     res.sendFile(absPath+'/home.html'); //requires absolute path of file to be rendered
 })
  */
