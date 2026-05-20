@@ -20,4 +20,11 @@ app.get("/submitUserData", (req,res)=>{
 app.post("/submit",(req,res)=>{
     res.render('submitted', req.body)
 })
+
+//loop and if condition in template
+app.get('/userList', (req,res)=>{
+    const users = ['amar','aaron','manoj','pida']
+    res.render('userList',{users:users, isLoggedIn:false})
+})
+
 app.listen(3200)
