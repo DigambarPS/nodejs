@@ -1,11 +1,13 @@
 import express from "express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { url } from "./connection.js";
 const app = express();
 const dbName = "school";
 const client = new MongoClient(url);
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -17,6 +19,11 @@ app.get("/", (req, res) => {
 //     const data = await collection.find().toArray()
 //     res.render('studentslist',{"data":data})
 // })
+
+//show add form
+app.get("/addStudent",(req,res)=>{
+    res.render('addStudent')
+})
 
 //another way
 client.connect().then((connection) => {
@@ -32,6 +39,50 @@ client.connect().then((connection) => {
     const data = await collection.find().toArray();
     res.send(data);
   });
+
+  //save data using form in db
+  app.post("/addStudent", async (req,res)=>{
+    const result = await collection.insertOne(req.body)
+    console.log(result)
+    res.send('<h2>Data Submitted</h2><br/><a href="/addStudent">Submit Another</a>')
+  })
+
+  //save data in db using api
+  app.post("/addStudentApi", async (req,res)=>{
+    const {name,age,email} = req.body
+    if(!name || !age || !email)
+    {
+        res.send({message:"Operation Failed"})
+        return false
+    }
+    const result = await collection.insertOne(req.body)
+    console.log(result)
+    res.send({message:"Operation Successful"})
+  })
+
+  //delete data from db using api
+  app.delete("/delete/:id",(req,res)=>{
+    const id = req.params.id
+    if(!id)
+    {
+        res.send({message:"Operation Failed"})
+        return false
+    }
+    const result = collection.deleteOne({_id: new ObjectId(id)})
+    res.send({message:"operation Successful"})
+  })
+
+  //delete data from db from html table using anchor link
+  app.get("/deleteStudent/:id",(req,res)=>{
+    const id = req.params.id
+    if(!id)
+    {
+        res.send('<h2>Something Went Wrong!!</h2><br/><a href="/students">Go to List</a>')
+        return false
+    }
+    const result = collection.deleteOne({_id: new ObjectId(id)})
+    res.send('<h2>Student Deleted Successfully</h2><br/><a href="/students">Go to List</a>')
+  })
 });
 
 app.listen(3200);
