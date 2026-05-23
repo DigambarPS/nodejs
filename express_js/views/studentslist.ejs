@@ -12,7 +12,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Email</th>
-            <th>Operation</th>
+            <th colspan="2">Operation</th>
         </tr>
         <% data.forEach(e =>{ %>
            <tr>
@@ -20,6 +20,7 @@
             <td><%=e.age %></td>
             <td><%=e.email %></td>
             <td><a href="/deleteStudent/<%=e._id%>">Delete</a></td>
+            <td><a href="/student/<%=e._id%>">Update</a></td>
             </tr> 
         <%  })%>  
     </table>

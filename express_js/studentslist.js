@@ -83,6 +83,30 @@ client.connect().then((connection) => {
     const result = collection.deleteOne({_id: new ObjectId(id)})
     res.send('<h2>Student Deleted Successfully</h2><br/><a href="/students">Go to List</a>')
   })
+
+  //get data of a student based on id and display in html form
+  app.get('/student/:id',async (req,res)=>{
+    const id = req.params.id
+    if(!id)
+    {
+      res.send('<h2>Something went wrong</h2>')
+      return false
+    }
+    const result = await collection.findOne({_id: new ObjectId(id)})
+    res.render('updateStudent',{data:result})
+  })
+
+  //get data of student based on id using api
+  app.get('/getStudent/:id',async (req,res)=>{
+    const id = req.params.id
+    if(!id)
+    {
+      res.send({message:"fetching data Unsuccessful"})
+      return false
+    }
+    const result = await collection.findOne({_id: new ObjectId(id)})
+    res.send({message:"fetching data Successful",result:result})
+  })
 });
 
 app.listen(3200);

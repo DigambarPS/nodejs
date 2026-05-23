@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student</title>
+</head>
+<body>
+    <form action="/updateStudent" method="POST">
+        <input type="text" name="name" id="name" placeholder="Enter Student Name" value="<%= data.name %>">
+        <input type="number" name="age" id="age" placeholder="Enter Student Age" value="<%= data.age %>">
+        <input type="email" name="email" id="email" placeholder="Enter Student Email" value="<%= data.email %>">
+        <button>Update</button>
+    </form>
+</body>
+</html>
