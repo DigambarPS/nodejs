@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import {url} from "./connection.js"
 
 async function dbConnection()
@@ -12,7 +12,7 @@ async function dbConnection()
 
     const studentModel = mongoose.model('students',schema)
     const result = await studentModel.find()
-    console.log(result)
+    
 }
 
 dbConnection();
