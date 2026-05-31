@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Form</title>
+</head>
+<body>
+    <form action="/sendMail" method="Post">
+        <label for="to">To:</label>
+        <input type="email" name="to" placeholder="Enter Email Address of Receiver">
+        <br/>
+        <label for="subject"></label>
+        <input type="text" name="subject" id="subject" placeholder="Enter Subject">
+        <br>
+        <label for="message"></label>
+        <textarea name="message" id="message" placeholder="Enter Message"></textarea>
+        <br>
+        <button>Send</button>
+    </form>
+</body>
+</html>
